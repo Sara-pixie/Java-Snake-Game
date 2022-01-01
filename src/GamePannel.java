@@ -10,7 +10,7 @@ public class GamePannel extends JPanel implements ActionListener {
     static final int SCREEN_HEIGHT = 600;
     static final int UNIT_SIZE = 25;
     static final int GAME_UNITS = (SCREEN_HEIGHT * SCREEN_WIDTH) / UNIT_SIZE;
-    static final int DELAY = 80;
+    int delay = 80;
     final int x[] = new int[GAME_UNITS];
     final int y[] = new int[GAME_UNITS];
     int bodyParts = 6;
@@ -34,7 +34,7 @@ public class GamePannel extends JPanel implements ActionListener {
     public void startGame() {
         newApple();
         running = true;
-        timer = new Timer(DELAY, this);
+        timer = new Timer(delay, this);
         timer.start();
     }
 
@@ -113,6 +113,11 @@ public class GamePannel extends JPanel implements ActionListener {
         if ((x[0] == appleX) && (y[0] == appleY)) {
             // increase body parts by 1
             bodyParts++;
+            // increase speed
+            timer.stop();
+            delay--;
+            timer = new Timer(delay, this);
+            timer.start();
             // increase eaten apples variable
             applesEaten++;
             // generate new apple
@@ -238,6 +243,7 @@ public class GamePannel extends JPanel implements ActionListener {
                         x[0] = 0;
                         y[0] = 0;
                         bodyParts = 6;
+                        delay = 80;
                         applesEaten = 0;
                         direction = 'R';
                         startGame();
